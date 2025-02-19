@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+        <div class="container mt-5">
+        <div class="row">
+            {% for course in courses %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                    <a href="{% url 'course_detail' course.id %}">
+                        {% if course.photo %}
+                            <img src="{{ course.photo.url }}" alt="{{ course.name }}" class="img-fluid">
+                        {% else %}
+                            <p>Rasm mavjud emas</p>
+                        {% endif %}
+                        <h5 class="card-title">{{ course.name }}</h5>
+                    </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock main%}

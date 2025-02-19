@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div class="container d-flex justify-content-center">
+
+        <div class="col-md-4 mt-4 p-5" style="width:30%" >
+            {% if course.photo %}
+                <img src="{{ course.photo.url }}" alt="{{ course.name }}" class="img-fluid mt-4"
+                     style="width:100%; height:80%; object-fit: cover; border-radius: 10px;">
+            {% else %}
+                <p class="text-muted">Rasm mavjud emas</p>
+            {% endif %}
+            <h1 class="fw-bold mt-2">{{ course.name }}</h1>
+        </div>
+<div class="mt-4" style="width: 70%;">
+
+    <div class="container mt-4">
+    <h3 class="fw-bold text-center">Darslar</h3>
+    <table class="table table-striped table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Numbers</th>
+                <th>Nomi</th>
+                <th>Boshlangan vaqti</th>
+                <th>summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lesson in lessons %}
+            <tr>
+
+                <td><a href="{%  url 'lesson_detail' course.id  %}">{{ lesson.id }}.</a></td>
+                <td><a href="{%  url 'lesson_detail' course.id  %}">{{ lesson.lesson_name }}</a></td>
+                <td><a href="{%  url 'lesson_detail' course.id  %}">{{ lesson.date }} </a></td>
+                <td><a href="{%  url 'lesson_detail' course.id  %}">{{ lesson.summary }} </a></td>
+
+            </tr>
+
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center text-muted">Darslar mavjud emas</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</div>
+</div>
+
+
+
+{% endblock main%}

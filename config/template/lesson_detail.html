@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="container mt-4">
+    <h2 class="text-primary">{{ lesson.lesson_name }}</h2>
+    <p>{{ lesson.summary }}</p>
+    <!-- Fikr qo‘shish formasi -->
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="create">
+        <div class="input-group">
+            {{ form.text }}
+            <button type="submit" class="btn btn-primary">Fikr qoldirish</button>
+        </div>
+    </form>
+
+    <hr>
+
+    <!-- Kommentlar -->
+    {% for comment in comments %}
+        <div class="comment-box p-3 mb-3 border rounded">
+            <p><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</p>
+
+            {% if request.user == comment.user %}
+                <!-- Tahrirlash formasi -->
+                <form method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                    <input type="text" name="text" class="form-control mb-2 d-inline w-50" value="{{ comment.text }}">
+                    <button type="submit" class="btn btn-sm btn-success">Saqlash</button>
+                </form>
+
+                <!-- O‘chirish formasi -->
+                <form method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                    <button type="submit" class="btn btn-sm btn-danger">O‘chirish</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock main %}
