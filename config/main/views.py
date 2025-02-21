@@ -3,6 +3,7 @@ from .models import Course, Lesson, Comment, Profile
 from .form import CommentFrom, LoginForm, RegisterForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth.models import User
 
 
@@ -13,6 +14,8 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+
+@permission_required('main/view_course', raise_exception=True)
 def course_detail(request, course_id):
     course = get_object_or_404(Course, id=course_id)
     lessons = Lesson.objects.filter(course=course)
@@ -23,6 +26,7 @@ def course_detail(request, course_id):
     return render(request, 'course_detail.html', context)
 
 
+@permission_required('main.view_lesson', raise_exception=True)
 def lesson_detail(request, lesson_id):
     """Dars sahifasini ko‘rsatish va kommentlarni boshqarish"""
     lesson = get_object_or_404(Lesson, id=lesson_id)
@@ -100,7 +104,7 @@ def user_register(request):
         'form': form
     }
     return render(request, 'register.html', context)
-
+@login_required
 def user_logout(request):
     logout(request)
     messages.warning(request, "Siz akoutni tark etingiz !")

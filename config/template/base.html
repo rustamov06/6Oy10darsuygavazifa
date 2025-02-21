@@ -3,22 +3,25 @@
 <html lang="uz">
 <head>
   {% include 'components/_stayles.html'%}
-
-<!--    <style>-->
-<!--        *{-->
-<!--        border:1px solid black-->
-<!--         }-->
-<!--    </style>-->
 </head>
-
 <body>
     <header>
     {% include 'components/_header.html'%}
     </header>
+{% include 'components/_massages.html'%}
 
-    {% if form.errors %}
-    {{form.errors}}
-    {% endif %}
+{% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li>{{ field|title }}: {{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+
 
     <main>
         {% block main%}
