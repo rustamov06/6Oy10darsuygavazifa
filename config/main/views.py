@@ -107,20 +107,21 @@ def user_register(request):
 @login_required
 def user_logout(request):
     logout(request)
-    messages.warning(request, "Siz akoutni tark etingiz !")
+    messages.warning(request, f"Siz akoutni tark etingiz janob !")
     return redirect("user_login")
 
 
 
-def profile(request):
-    if request.user.is_authenticated:
+def profile(request, username):
+
         context = {}
         try:
-            profile = Profile.objects.get(user=request.user)
+            user = get_object_or_404(User, username=username)
+            lesson = Lesson.objects.filter(author=user)
+            profile = get_object_or_404(Profile, user=user)
             context['profile'] = profile
-        except:
-            pass
+            context['lesson'] = lesson
+        except Exception as e:
+            messages.error(request, f"{e}")
+            return redirect('home')
         return render(request, "profile.html", context)
-    else:
-        messages.warning(request, "Siz kimsiz?")
-        return redirect('index')

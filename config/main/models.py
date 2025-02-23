@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import SET_NULL
+from django.core.validators import FileExtensionValidator
 
 
 class Profile(models.Model):
@@ -29,8 +31,10 @@ class Course(models.Model):
 class Lesson(models.Model):
     lesson_name = models.CharField(max_length=200, verbose_name="Dars nomi ")
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, verbose_name="Kurs nomi")
+    video = models.FileField(upload_to="new/videos/", null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['mp4', 'avi'])])
     date = models.DateField(null=True, blank=True, verbose_name="Dars sanasi")
     summary = models.TextField(verbose_name="Dars Haqida")
+    author = models.ForeignKey(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.lesson_name} {self.course} {self.date} {self.summary}"

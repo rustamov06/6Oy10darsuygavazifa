@@ -41,7 +41,7 @@
         <a
           data-mdb-dropdown-init
           class="dropdown-toggle d-flex align-items-center hidden-arrow"
-          href="{% url 'profile' %}"
+          href="{% url 'profile' username=request.user.username %}"
           id="navbarDropdownMenuAvatar"
           role="button"
           aria-expanded="false"

@@ -4,6 +4,15 @@
 <div class="container mt-4">
     <h2 class="text-primary">{{ lesson.lesson_name }}</h2>
     <p>{{ lesson.summary }}</p>
+    {% if lesson.video %}
+    <video width="90%" src="{{ lesson.video.url}}" controls>
+
+    </video>
+    {% endif %}
+<a href="{% url 'profile' lesson.author.username %}">
+    <h4><b>By {{ lesson.author }}</b></h4>
+</a>
+
     <!-- Fikr qo‘shish formasi -->
     <form method="POST">
         {% csrf_token %}
